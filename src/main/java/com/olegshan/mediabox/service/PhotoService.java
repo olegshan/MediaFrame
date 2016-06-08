@@ -19,10 +19,10 @@ import java.util.List;
 public class PhotoService {
 
     @Autowired
-    PhotoRepository photoRepository;
+    private PhotoRepository photoRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public void save(Photo photo, String name) {
         UserClient userClient = userRepository.findByName(name);

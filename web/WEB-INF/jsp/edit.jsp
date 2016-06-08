@@ -14,16 +14,19 @@
                     <a class="img-thumbnail" href="${photoEdit.location}">
                         <img src="${photoEdit.thumbnailPath}" width="200"></a>
                 </td>
+                <td width="50">Name:</td>
                 <td>
                     <input type="text" class="form-control" value="${photoEdit.name}" name="name">
                 </td>
             </tr>
             <tr>
+                <td>Tags:</td>
                 <td>
                     <input type="text" class="form-control" value="${photoEdit.tags}" name="tags">
                 </td>
             </tr>
             <tr>
+                <td>Source:</td>
                 <td>
                     <input type="text" class="form-control" value="${photoEdit.source}" name="source">
                 </td>
@@ -31,8 +34,10 @@
         </table>
         <input type="submit" value="Save" class="btn btn-primary">
         <a href="<spring:url value="delete/${photoEdit.id}"/>">
-            <button type="button" class="btn btn-danger">Delete</button></a>
+            <button type="button" class="btn btn-danger">Delete</button>
+        </a>
         <a href="<spring:url value="cancel"/>">
-            <button type="button" class="btn btn-default">Cancel</button></a>
+            <button type="button" class="btn btn-default">Cancel</button>
+        </a>
     </form>
 </center>

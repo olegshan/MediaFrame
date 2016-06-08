@@ -25,10 +25,14 @@ public class EditController {
     public String edit(Model model, @PathVariable int id, Principal principal) {
         Photo photo = photoService.findOne(id);
         // Preventing manual typing of not own photo id
-        if (photo.getUserClient().getName().equals(principal.getName())) {
-            model.addAttribute("photoEdit", photo);
-            return "edit";
-        } else return "redirect:/";
+        try {
+            if (photo.getUserClient().getName().equals(principal.getName())) {
+                model.addAttribute("photoEdit", photo);
+                return "edit";
+            } else return "redirect:/";
+        } catch (NullPointerException e) {
+            return "redirect:/login";
+        }
     }
 
     @RequestMapping("/edit/update/{id}")

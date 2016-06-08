@@ -18,7 +18,7 @@
 </security:authorize>
 
 <security:authorize access="!isAuthenticated()">
-    // Here will be some usefull information for not authorized users about this app. By now here is a cat
+    <%--Here will be some usefull information for not authorized users about this app. By now here is a cat--%>
     <center>
         <img src="/resources/index.png">
     </center>
