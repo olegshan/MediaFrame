@@ -1,6 +1,7 @@
 <%@ include file="../layout/taglib.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="<c:url value="/resources/js/clrbx.js"/>"></script>
+<%@ include file="../layout/remove-modal.jsp" %>
 
 <center>
     <table class="table table-bordered table-hover table-striped">
@@ -47,7 +48,7 @@
                     <a href="<spring:url value="/edit/${photo.id}"/>"><img src="/resources/edit.png"></a>
                 </td>
                 <td style="text-align: center; vertical-align:middle">
-                    <a href="<spring:url value="/delete/${photo.id}"/>"><img src="/resources/delete.png"></a>
+                    <a href="<spring:url value="/delete/${photo.id}"/>" class="triggerRemove"><img src="/resources/delete.png"></a>
                 </td>
             </tr>
         </c:forEach>

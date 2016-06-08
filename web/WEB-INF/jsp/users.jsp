@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../layout/taglib.jsp"%>
+<%@ include file="../layout/taglib.jsp" %>
+<%@ include file="../layout/remove-modal.jsp" %>
 
 <table class="table table-bordered table-hover table-striped">
     <thead>
@@ -17,7 +18,7 @@
                 </a>
             </td>
             <td>
-                <a href="<spring:url value="/users/remove/${user.id}"/>"class="btn btn-danger">
+                <a href="<spring:url value="/users/remove/${user.id}"/>" class="btn btn-danger triggerRemove">
                     remove
                 </a>
             </td>

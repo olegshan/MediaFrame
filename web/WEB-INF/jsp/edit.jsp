@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../layout/taglib.jsp" %>
 <script src="<c:url value="/resources/js/clrbx.js"/>"></script>
+<%@ include file="../layout/remove-modal.jsp" %>
 
 <c:if test="${edited eq 'success'}">
     <div class="alert alert-success">Photo updated successfully</div>
@@ -33,8 +34,8 @@
             </tr>
         </table>
         <input type="submit" value="Save" class="btn btn-primary">
-        <a href="<spring:url value="delete/${photoEdit.id}"/>">
-            <button type="button" class="btn btn-danger">Delete</button>
+        <a href="<spring:url value="delete/${photoEdit.id}"/>" class="btn btn-danger triggerRemove">
+            Remove
         </a>
         <a href="<spring:url value="cancel"/>">
             <button type="button" class="btn btn-default">Cancel</button>

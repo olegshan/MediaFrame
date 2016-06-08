@@ -11,10 +11,11 @@
         <br/>
         <%@ include file="../layout/searchline.jsp" %>
         <br/>
+    </center>
         <c:set var="userPics" value="${user.photos}" scope="request"/>
         <%@ include file="../layout/table.jsp" %>
 
-    </center>
+
 </security:authorize>
 
 <security:authorize access="!isAuthenticated()">
