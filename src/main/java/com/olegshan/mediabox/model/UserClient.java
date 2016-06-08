@@ -31,7 +31,7 @@ public class UserClient {
     @JoinTable
     private List<Role> roles;
 
-    @OneToMany(mappedBy = "userClient")
+    @OneToMany(mappedBy = "userClient", cascade = CascadeType.REMOVE)
     private List<Photo> photos;
 
     private boolean enabled;

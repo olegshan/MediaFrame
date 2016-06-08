@@ -49,4 +49,10 @@ public class UserController {
         redirectAttributes.addFlashAttribute("success", true);
         return "redirect:/register";
     }
+
+    @RequestMapping("/users/remove/{id}")
+    public String removeUser(@PathVariable int id) {
+        userService.delete(id);
+        return "redirect:/users";
+    }
 }

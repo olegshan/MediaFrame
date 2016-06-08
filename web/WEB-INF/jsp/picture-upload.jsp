@@ -17,7 +17,11 @@
     <div class="alert alert-danger">Please select pictures!</div>
 </c:if>
 <c:if test="${maxsize eq 'exceeded'}">
-    <div class="alert alert-danger">Some files are too large. Max size is 8 MB</div>
+    <div class="alert alert-danger">Some files are too large. Max size is 8 MB.</div>
+</c:if>
+
+<c:if test="${filetype eq 'wrong'}">
+    <div class="alert alert-danger">Only .jpg, .jpeg, .png and .gif formats are supported.</div>
 </c:if>
 
 

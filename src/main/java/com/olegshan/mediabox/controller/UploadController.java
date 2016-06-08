@@ -57,8 +57,14 @@ public class UploadController {
             return "redirect:/picture-upload";
         }
 
-        // Are the files not too large?
         for (MultipartFile f : files) {
+            // Does user try to load only pictures?
+            String ext = f.getOriginalFilename().substring(f.getOriginalFilename().lastIndexOf(".") + 1);
+            if (!ext.equals("jpg") && !ext.equals("jpeg") && !ext.equals("png") && !ext.equals("gif")) {
+                redirectAttributes.addFlashAttribute("filetype", "wrong");
+                return "redirect:/picture-upload";
+            }
+            // Are the files not too large?
             if (f.getSize() > 1024 * 1024 * 8) {
                 redirectAttributes.addFlashAttribute("maxsize", "exceeded");
                 return "redirect:/picture-upload";

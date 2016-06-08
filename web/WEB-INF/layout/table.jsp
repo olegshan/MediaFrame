@@ -20,7 +20,7 @@
             </c:when>
             <c:otherwise>
                 <h1>
-                    <small>You don't have any photos yet.</small>
+                    <small>You don't have any pictures yet.</small>
                 </h1>
             </c:otherwise>
         </c:choose>

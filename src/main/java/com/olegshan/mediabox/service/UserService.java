@@ -64,4 +64,7 @@ public class UserService {
         return findOneWithPhotos(userClient.getId());
     }
 
+    public void delete(int id) {
+        userRepository.delete(id);
+    }
 }

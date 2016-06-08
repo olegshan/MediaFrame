@@ -67,7 +67,7 @@ $(document).ready(function () {
                 alert("This browser does not support FileReader.");
             }
         } else {
-            alert("Please select images only");
+            alert("Only .jpg, .jpeg, .png and .gif formats are supported.");
         }
     });
 });
