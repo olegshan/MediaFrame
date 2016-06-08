@@ -67,4 +67,8 @@ public class UserService {
     public void delete(int id) {
         userRepository.delete(id);
     }
+
+    public UserClient findOne(String username) {
+        return userRepository.findByName(username);
+    }
 }

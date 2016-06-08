@@ -5,11 +5,11 @@ import com.olegshan.mediabox.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 /**
  * Created by Bors on 22.05.2016.
@@ -44,7 +44,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String doRegister(@ModelAttribute("user") UserClient userClient, RedirectAttributes redirectAttributes) {
+    public String doRegister(@Valid @ModelAttribute("user") UserClient userClient, BindingResult result,
+                             RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "user-register";
+        }
         userService.save(userClient);
         redirectAttributes.addFlashAttribute("success", true);
         return "redirect:/register";
@@ -54,5 +58,12 @@ public class UserController {
     public String removeUser(@PathVariable int id) {
         userService.delete(id);
         return "redirect:/users";
+    }
+
+    @RequestMapping("/register/available")
+    @ResponseBody
+    public String available(@RequestParam String username) {
+        Boolean available = userService.findOne(username) == null;
+        return available.toString();
     }
 }
