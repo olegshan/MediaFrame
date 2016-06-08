@@ -1,6 +1,7 @@
 package com.olegshan.mediabox.controller;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -72,7 +73,8 @@ public class UploadController {
         }
 
         //Connect to Amazon S3 server
-        AWSCredentials credentials = new ProfileCredentialsProvider().getCredentials();
+//        AWSCredentials credentials = new ProfileCredentialsProvider().getCredentials();
+        AWSCredentials credentials = new EnvironmentVariableCredentialsProvider().getCredentials();
         AmazonS3 s3client = new AmazonS3Client(credentials);
         String bucketName = "mediaframe";
 
