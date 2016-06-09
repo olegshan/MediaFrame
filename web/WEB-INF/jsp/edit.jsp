@@ -15,7 +15,7 @@
                     <a class="img-thumbnail" href="${photoEdit.location}">
                         <img src="${photoEdit.thumbnailPath}" width="200"></a>
                 </td>
-                <td width="50">Name:</td>
+                <td width="50">Desc:</td>
                 <td>
                     <input type="text" class="form-control" value="${photoEdit.name}" name="name">
                 </td>
