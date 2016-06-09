@@ -1,6 +1,7 @@
 <%@ include file="../layout/taglib.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="<c:url value="/resources/js/clrbx.js"/>"></script>
+<script src="<c:url value="/resources/js/pagination.js"/>"></script>
 <%@ include file="../layout/remove-modal.jsp" %>
 
 <center>
@@ -10,9 +11,9 @@
                 <thead>
                 <tr>
                     <th>Picture</th>
-                    <th>Name</th>
+                    <th>Description</th>
                     <th>Tags</th>
-                    <th>Source</th>
+                    <th>Source/Author</th>
                     <th>Date</th>
                     <th></th>
                     <th></th>
@@ -25,7 +26,7 @@
                 </h1>
             </c:otherwise>
         </c:choose>
-        <tbody>
+        <tbody id="tableBody">
         <c:forEach items="${requestScope.userPics}" var="photo">
             <tr>
                 <td>
@@ -54,4 +55,7 @@
         </c:forEach>
         </tbody>
     </table>
+    <div class="col-md-12 text-center">
+        <ul class="pagination pagination-lg pager" id="myPager"></ul>
+    </div>
 </center>

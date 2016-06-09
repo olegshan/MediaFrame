@@ -41,13 +41,13 @@ $(document).ready(function () {
                             var newRow = newElem.insertRow(0);
                             var newCell1 = newRow.insertCell(0);
                             newCell1.innerHTML = "<input type='text' class='form-control' " +
-                                "placeholder='Source' name='source' style='margin: 15px'>";
+                                "placeholder='Source/Author' name='source' style='margin: 15px'>";
                             var newCell2 = newRow.insertCell(0);
                             newCell2.innerHTML = "<input type='text' class='form-control' " +
                                 "placeholder='Tags' name='tags' style='margin: 10px'>";
                             var newCell3 = newRow.insertCell(0);
                             newCell3.innerHTML = "<input type='text' class='form-control' " +
-                                "placeholder='Name' name='name' style='margin-left: 5px'>";
+                                "placeholder='Description' name='name' style='margin-left: 5px'>";
                             var newCell4 = newRow.insertCell(0);
 
                             $("<img />", {
