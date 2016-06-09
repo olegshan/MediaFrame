@@ -114,7 +114,7 @@ public class UploadController {
 
                 // Somehow, when user chooses only one photo, the length of all fields is 0. So we need to check
                 // the length of each array before we check [i] element, otherwise we will became the NullPointerException
-                String name = "unnamed";
+                String name = "undescribed";
 
                 if (names.length != 0) {
                     if (names[i].trim().length() != 0) {
