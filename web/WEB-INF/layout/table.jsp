@@ -49,13 +49,16 @@
                     <a href="<spring:url value="/edit/${photo.id}"/>"><img src="/resources/edit.png"></a>
                 </td>
                 <td style="text-align: center; vertical-align:middle">
-                    <a href="<spring:url value="/delete/${photo.id}"/>" class="triggerRemove"><img src="/resources/delete.png"></a>
+                    <a href="<spring:url value="/delete/${photo.id}"/>" class="triggerRemove"><img
+                            src="/resources/delete.png"></a>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <div class="col-md-12 text-center">
-        <ul class="pagination pagination-lg pager" id="myPager"></ul>
-    </div>
+    <c:if test="${fn:length(requestScope.userPics) gt 10}">
+        <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager" id="myPager"></ul>
+        </div>
+    </c:if>
 </center>
