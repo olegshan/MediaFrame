@@ -3,6 +3,12 @@
 
 <script src="<c:url value="/resources/js/tab.js"/>"></script>
 
+<script>
+    function disableFunction() {
+        document.getElementById("submitBtn").disabled = 'true';
+    }
+</script>
+
 <style type="text/css">.thumb-image {
     margin-top: 10px;
     width: 150px;
@@ -30,7 +36,8 @@
         <form method="POST" action="upload" enctype="multipart/form-data">
             <input id="fileUpload" name="file" multiple="multiple" type="file"/>
             <br/>
-            <input type="submit" value="Upload" class="btn btn-primary btn-lg">
+            <input type="submit" value="Upload" class="btn btn-primary btn-lg" id="submitBtn"
+                   onclick="setTimeout(disableFunction, 1);">
             <br/>
             <div id="image-holder"/>
         </form>
