@@ -13,10 +13,6 @@
     <servlet-mapping>
         <servlet-name>spring-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
-        <!--<url-pattern>*.html</url-pattern>
-        <url-pattern>*.htm</url-pattern>
-        <url-pattern>*.json</url-pattern>
-        <url-pattern>*.xml</url-pattern>-->
     </servlet-mapping>
 
     <filter>
@@ -55,5 +51,10 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>prod</param-value>
+    </context-param>
 
 </web-app>
