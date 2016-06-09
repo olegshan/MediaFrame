@@ -44,7 +44,7 @@ public class UserService {
     public UserClient findOneWithPhotos(int id) {
         UserClient userClient = userRepository.findOne(id);
         List<Photo> photos = photoRepository.findByUserClient(userClient,
-                new PageRequest(0, 10, Sort.Direction.DESC, "publishedDate"));
+                new PageRequest(0, Integer.MAX_VALUE, Sort.Direction.DESC, "publishedDate"));
         userClient.setPhotos(photos);
         return userClient;
     }
