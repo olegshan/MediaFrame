@@ -1,15 +1,7 @@
 package com.olegshan.mediabox.controller;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.olegshan.mediabox.model.Photo;
-import com.olegshan.mediabox.repository.PhotoRepository;
+import com.olegshan.mediabox.service.AmazonS3Service;
 import com.olegshan.mediabox.service.PhotoService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +23,13 @@ import java.util.UUID;
 @Controller
 public class UploadController {
 
-    @Autowired
-    PhotoRepository photoRepository;
-
-    @Autowired
-    PhotoService photoService;
-
     private static final String SUFFIX = "/";
+
+    @Autowired
+    private PhotoService photoService;
+
+    @Autowired
+    private AmazonS3Service amazonS3Service;
 
     @RequestMapping("/picture-upload")
     public String pictureUpload() {
@@ -52,7 +44,7 @@ public class UploadController {
                                  @RequestParam(value = "source", required = false) String[] sources,
                                  RedirectAttributes redirectAttributes) {
 
-        //Did user choose any files?
+        // Did user choose any files?
         if (files[0].isEmpty()) {
             redirectAttributes.addFlashAttribute("photolist", "blank");
             return "redirect:/picture-upload";
@@ -72,22 +64,13 @@ public class UploadController {
             }
         }
 
-        //Connect to Amazon S3 server
-//        AWSCredentials credentials = new ProfileCredentialsProvider().getCredentials();
-        AWSCredentials credentials = new EnvironmentVariableCredentialsProvider().getCredentials();
-        AmazonS3 s3client = new AmazonS3Client(credentials);
-        String bucketName = "mediaframe";
-
-        // Check whether main and thumbnail folder exist. If not, create them
+        // Create main and thumbnail folders
         String folderName = principal.getName() + "-folder";
-        if (!s3client.doesObjectExist(bucketName, folderName)) {
-            createFolder(bucketName, folderName, s3client);
-        }
+        amazonS3Service.createFolder(folderName);
+
 
         String thumbnailFolderName = folderName + SUFFIX + "thumbnails";
-        if (!s3client.doesObjectExist(bucketName, thumbnailFolderName)) {
-            createFolder(bucketName, thumbnailFolderName, s3client);
-        }
+        amazonS3Service.createFolder(thumbnailFolderName);
 
         for (int i = 0; i < files.length; i++) {
 
@@ -101,16 +84,14 @@ public class UploadController {
                 File fileToUpload = new File(fileName);
                 file.transferTo(fileToUpload);
                 String fileNameToUpload = folderName + SUFFIX + fileName;
-                s3client.putObject(new PutObjectRequest(bucketName, fileNameToUpload, fileToUpload)
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
+                amazonS3Service.upload(fileNameToUpload, fileToUpload);
 
                 // Create thumbnail and upload it to the S3 server
                 File thumbnailToUpload = new File(fileName);
                 String thumbnailNameToUpload = thumbnailFolderName + SUFFIX + fileName;
                 Thumbnails.Builder<File> thumbnail = Thumbnails.of(fileToUpload).size(200, 200);
                 thumbnail.toFile(thumbnailToUpload);
-                s3client.putObject(new PutObjectRequest(bucketName, thumbnailNameToUpload, thumbnailToUpload)
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
+                amazonS3Service.upload(thumbnailNameToUpload, thumbnailToUpload);
 
                 // Somehow, when user chooses only one photo, the length of all fields is 0. So we need to check
                 // the length of each array before we check [i] element, otherwise we will became the NullPointerException
@@ -144,33 +125,16 @@ public class UploadController {
                 photo.setTags(tag);
                 photo.setSource(source);
                 photo.setPublishedDate(new Date());
-                photo.setLocation(s3client.getUrl(bucketName, fileNameToUpload).toString());
-                photo.setThumbnailPath(s3client.getUrl(bucketName, thumbnailNameToUpload).toString());
+                photo.setLocation(amazonS3Service.getLocation(fileNameToUpload));
+                photo.setThumbnailPath(amazonS3Service.getLocation(thumbnailNameToUpload));
                 photoService.save(photo, principal.getName());
 
             } catch (Exception e) {
-                try {
-                    PrintStream ps = new PrintStream("e:/logfile.log");
-                    e.printStackTrace(ps);
-                    ps.close();
-                } catch (Exception e1) {
-                }
                 redirectAttributes.addFlashAttribute("success", false);
                 return "redirect:/picture-upload";
             }
-
         }
 
         return "redirect:/";
-    }
-
-    //This method creates an empty folder in Amazon S3 bucket
-    private static void createFolder(String bucketName, String folderName, AmazonS3 client) {
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(0);
-        InputStream emptyContent = new ByteArrayInputStream(new byte[0]);
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,
-                folderName + SUFFIX, emptyContent, metadata);
-        client.putObject(putObjectRequest);
     }
 }

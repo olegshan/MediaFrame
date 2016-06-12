@@ -1,5 +1,4 @@
 package com.olegshan.mediabox.controller;
-
 import com.olegshan.mediabox.model.Photo;
 import com.olegshan.mediabox.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;

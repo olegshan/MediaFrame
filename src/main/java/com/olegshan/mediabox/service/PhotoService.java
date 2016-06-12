@@ -24,6 +24,9 @@ public class PhotoService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AmazonS3Service amazonS3Service;
+
     public void save(Photo photo, String name) {
         UserClient userClient = userRepository.findByName(name);
         photo.setUserClient(userClient);
@@ -38,6 +41,10 @@ public class PhotoService {
         return photoRepository.findOne(id);
     }
 
+    public Photo findOne(Photo photo) {
+        return photoRepository.findOne(photo.getId());
+    }
+
     // It's far not brilliant. Needs refactoring
     public List<Photo> search(String query, String name) {
         List<Photo> list = new ArrayList<>();
@@ -49,6 +56,7 @@ public class PhotoService {
 
     @PreAuthorize("#photo.userClient.name == authentication.name")
     public void delete(@P("photo") Photo photo) {
+        amazonS3Service.delete(photo);
         photoRepository.delete(photo);
     }
 }
